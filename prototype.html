@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PINVATE · Prototipo</title>
+<style>
+:root{--wine:#8f1d2c;--red:#b52b3b;--cream:#f7f0e5;--paper:#fffaf2;--ink:#292321;--muted:#81766f;--yellow:#f2c94c;--line:#e8ddd0}
+*{box-sizing:border-box}body{margin:0;background:#eee4d8;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.app{max-width:1180px;min-height:760px;margin:28px auto;background:var(--paper);border:1px solid #e2d5c6;border-radius:22px;overflow:hidden;box-shadow:0 18px 55px #4b2a221c}
+.top{height:72px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#fffdf8}
+.logo{font-weight:900;font-size:25px;letter-spacing:-1.5px;color:var(--wine)}.logo span{color:var(--yellow)}
+.nav{display:flex;gap:9px;align-items:center}.nav button{border:0;background:transparent;padding:10px 13px;border-radius:10px;color:#695d57;cursor:pointer;font-weight:700}.nav button.active,.nav button:hover{background:#f7e8e6;color:var(--wine)}
+.avatar{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:#f3d9d4;color:var(--wine);font-weight:800}
+main{padding:42px 54px 50px;min-height:650px}.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--red);font-weight:800}
+h1{font-size:42px;line-height:1.05;letter-spacing:-1.8px;margin:10px 0 12px;color:var(--wine)}h2{font-size:25px;margin:0 0 10px;color:var(--wine)}p{color:#71645e;line-height:1.6;margin:0 0 18px}.sub{max-width:650px}
+.btn{background:var(--wine);color:white;border:0;border-radius:11px;padding:13px 19px;font-weight:800;cursor:pointer}.btn:hover{background:#6f1421}.btn.secondary{background:#f5e5df;color:var(--wine);border:1px solid #e9c9c3}.btn.yellow{background:var(--yellow);color:#382a20}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:25px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 5px 18px #4b2a2208}.card h3{margin:10px 0 6px;font-size:16px}.thumb{height:130px;border-radius:11px;background:linear-gradient(135deg,#e8d5bd,#b98d72 55%,#68463b);display:flex;align-items:end;padding:12px;color:white;font-weight:800;font-size:20px;overflow:hidden}.thumb.pink{background:linear-gradient(135deg,#f3d7d4,#c77c7d,#743e48)}.thumb.green{background:linear-gradient(135deg,#d6ddc9,#75856b,#39483c)}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center;padding:25px 0}.hero-art{min-height:340px;border-radius:22px;background:#f2e5d6;padding:22px;display:grid;grid-template-columns:1fr 1fr;gap:12px;transform:rotate(1deg)}.tile{border-radius:14px;min-height:130px;background:linear-gradient(135deg,#d8bda2,#8c5c4b);display:flex;align-items:end;padding:12px;color:white;font-weight:800}.tile:nth-child(2){background:linear-gradient(135deg,#f1d9d1,#a35b60)}.tile:nth-child(3){background:linear-gradient(135deg,#e7dfc7,#6d7860)}.tile:nth-child(4){background:linear-gradient(135deg,#e5c18c,#704b39)}
+.steps{display:flex;gap:8px;margin:22px 0 28px}.step{flex:1;height:5px;border-radius:5px;background:#eaded2}.step.on{background:var(--red)}
+.upload{border:2px dashed #d9b9b1;border-radius:17px;background:#fff9f4;padding:40px;text-align:center;margin:22px 0}.upload input{display:none}.upload-icon{font-size:38px;color:var(--red);margin-bottom:10px}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.field{width:100%;border:1px solid var(--line);border-radius:10px;padding:13px;background:white;font:inherit;margin:7px 0 16px}.palette{display:flex;gap:10px;margin:12px 0 20px}.swatch{height:56px;flex:1;border-radius:10px;border:1px solid #00000010}.analysis{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}.reference{height:230px;border-radius:15px;background:linear-gradient(135deg,#ead9c5,#b58b70,#60483d);display:grid;place-items:center;color:white;font-size:22px;font-weight:800;text-align:center;padding:20px}.metric{margin:15px 0}.metric-head{display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin-bottom:7px}.bar{height:9px;background:#eee5dc;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--red);border-radius:9px}
+.proposals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}.proposal{border:2px solid transparent;border-radius:15px;padding:10px;background:white;cursor:pointer}.proposal.selected{border-color:var(--red);background:#fff7f4}.brand{height:175px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#eee3d4;color:#573d32}.brand:nth-child(2){background:#ead8d4}.brand strong{font-family:Georgia,serif;font-size:25px}.brand small{letter-spacing:3px;margin-top:8px}
+.editor{display:grid;grid-template-columns:220px 1fr 210px;gap:16px;margin-top:20px}.tools,.properties{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px}.tools button{display:block;width:100%;text-align:left;border:0;background:#faf5ef;padding:12px;border-radius:9px;margin:5px 0;cursor:pointer;color:#594b44}.canvas{background:#e9e1d8;border-radius:14px;min-height:410px;display:grid;place-items:center;padding:25px}.artboard{width:min(100%,390px);aspect-ratio:4/5;background:#f1e5d4;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#563c31;box-shadow:0 5px 20px #0002;position:relative}.artboard h2{font-family:Georgia,serif;font-size:36px;color:#563c31}.artboard p{font-size:11px;letter-spacing:3px;color:#725a4c}.artboard .orn{width:55px;height:2px;background:#a9785d;margin:14px}
+.notice{padding:13px 15px;background:#f9eee8;border-radius:11px;color:#75443d;font-size:13px;margin:15px 0}.footer{display:flex;justify-content:space-between;align-items:center;margin-top:30px;color:#9a8b80;font-size:12px}
+.screen{display:none}.screen.active{display:block}
+@media(max-width:760px){.app{margin:0;border-radius:0}.top{padding:0 16px}.nav button{padding:8px 5px;font-size:11px}main{padding:28px 20px}.hero,.analysis,.editor{grid-template-columns:1fr}.grid,.proposals{grid-template-columns:1fr}h1{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="logo">PINVATE<span>.</span></div>
+  <nav class="nav">
+    <button class="active" data-go="home">Inicio</button><button data-go="dashboard">Proyectos</button>
+    <button data-go="import">Crear</button><div class="avatar">V</div>
+  </nav>
+</header>
+<main>
+<section class="screen active" id="home">
+ <div class="hero">
+  <div><div class="eyebrow">De la inspiración a la creación</div><h1>Tus ideas merecen convertirse en diseño.</h1><p class="sub">Transforma tus tableros de inspiración en propuestas visuales listas para personalizar. Reúne tus referencias, descubre tu estilo y comienza a crear.</p><button class="btn" onclick="go('dashboard')">Comenzar ahora →</button></div>
+  <div class="hero-art"><div class="tile">Color</div><div class="tile">Tipografía</div><div class="tile">Texturas</div><div class="tile">Identidad</div></div>
+ </div>
+ <div class="notice">✦ PINVATE conecta tu inspiración con herramientas para crear diseños coherentes y editables.</div>
+</section>
+<section class="screen" id="dashboard">
+ <div class="eyebrow">Tu espacio creativo</div><h1>¡Hola, Valentina!</h1><p>Continúa tus proyectos o empieza algo nuevo.</p>
+ <button class="btn" onclick="go('import')">＋ Crear nuevo proyecto</button>
+ <div class="grid">
+  <div class="card"><div class="thumb">CAFÉ / BRANDING</div><h3>Identidad de cafetería</h3><p>Actualizado recientemente</p></div>
+  <div class="card"><div class="thumb pink">STUDIO / MOOD</div><h3>Estudio creativo</h3><p>6 referencias guardadas</p></div>
+  <div class="card"><div class="thumb green">BOTANICAL</div><h3>Marca botánica</h3><p>Borrador</p></div>
+ </div>
+</section>
+<section class="screen" id="import">
+ <div class="eyebrow">Paso 01 · Referencias</div><h1>Empecemos con tu inspiración.</h1><p>Importa imágenes o agrega un enlace a tu tablero de Pinterest.</p><div class="steps"><i class="step on"></i><i class="step"></i><i class="step"></i></div>
+ <label class="upload" for="files"><div class="upload-icon">＋</div><h2>Arrastra tus imágenes aquí</h2><p>o selecciona archivos desde tu dispositivo</p><button class="btn secondary" type="button" onclick="document.getElementById('files').click()">Seleccionar imágenes</button><input id="files" type="file" accept="image/*" multiple onchange="showFiles(this)"><div id="fileNames" class="notice" style="display:none"></div></label>
+ <label>Enlace de Pinterest (opcional)</label><input class="field" placeholder="https://www.pinterest.com/tu-tablero">
+ <label>Nombre del proyecto</label><input class="field" id="projectName" value="Identidad visual · Cafetería">
+ <button class="btn" onclick="go('analysis')">Analizar referencias →</button>
+</section>
+<section class="screen" id="analysis">
+ <div class="eyebrow">Paso 02 · Análisis visual</div><h1>Esto encontramos en tus referencias.</h1><p>PINVATE organiza los elementos visuales para identificar una dirección creativa.</p><div class="steps"><i class="step on"></i><i class="step on"></i><i class="step"></i></div>
+ <div class="analysis"><div class="reference">MOODBOARD<br>CAFÉ · NATURAL · CÁLIDO</div><div class="card"><h2>Tu estilo visual</h2><p>Resultado de demostración</p>
+ <div class="metric"><div class="metric-head"><span>Estilo orgánico</span><span>92%</span></div><div class="bar"><i style="width:92%"></i></div></div>
+ <div class="metric"><div class="metric-head"><span>Paleta cálida</span><span>86%</span></div><div class="bar"><i style="width:86%"></i></div></div>
+ <div class="metric"><div class="metric-head"><span>Minimalismo</span><span>78%</span></div><div class="bar"><i style="width:78%"></i></div></div>
+ <h3>Paleta sugerida</h3><div class="palette"><div class="swatch" style="background:#563c31"></div><div class="swatch" style="background:#a9785d"></div><div class="swatch" style="background:#d8c1a5"></div><div class="swatch" style="background:#f1e5d4"></div></div>
+ <p><b>Tipografía:</b> serif editorial + sans serif sencilla.</p></div></div>
+ <div class="notice">Este análisis es simulado para mostrar cómo funcionaría la experiencia del producto.</div><button class="btn" onclick="go('generate')">Generar propuestas →</button>
+</section>
+<section class="screen" id="generate">
+ <div class="eyebrow">Paso 03 · Propuestas</div><h1>Elige la dirección que más te representa.</h1><p>Selecciona una propuesta para llevarla al editor.</p><div class="steps"><i class="step on"></i><i class="step on"></i><i class="step on"></i></div>
+ <div class="proposals">
+  <div class="proposal selected" onclick="selectProposal(this)"><div class="brand"><strong>Casa Moka</strong><small>COFFEE HOUSE</small></div><h3>01 · Orgánico</h3><p>Natural y cálido</p></div>
+  <div class="proposal" onclick="selectProposal(this)"><div class="brand" style="background:#ead8d4;color:#713e42"><strong>marea</strong><small>CAFÉ DE ORIGEN</small></div><h3>02 · Editorial</h3><p>Suave y contemporáneo</p></div>
+  <div class="proposal" onclick="selectProposal(this)"><div class="brand" style="background:#dfe1d3;color:#43513f"><strong>VERDE</strong><small>CAFÉ BOTÁNICO</small></div><h3>03 · Botánico</h3><p>Fresco y minimalista</p></div>
+ </div>
+ <button class="btn" onclick="go('editor')">Editar esta propuesta →</button>
+</section>
+<section class="screen" id="editor">
+ <div class="eyebrow">Paso 04 · Editor</div><h1>Hazlo tuyo.</h1><p>Personaliza los elementos de tu identidad visual.</p>
+ <div class="editor">
+  <aside class="tools"><b>Herramientas</b><button onclick="changeTitle()">T Texto</button><button onclick="changeColor()">◉ Colores</button><button onclick="changeFont()">Aa Tipografía</button><button onclick="toggleOrn()">◇ Elementos</button></aside>
+  <div class="canvas"><div class="artboard" id="artboard"><h2 id="brandTitle">Casa Moka</h2><div class="orn" id="orn"></div><p>COFFEE HOUSE</p></div></div>
+  <aside class="properties"><b>Propiedades</b><p style="font-size:13px;margin-top:12px">Nombre de marca</p><input class="field" value="Casa Moka" oninput="document.getElementById('brandTitle').textContent=this.value"><p style="font-size:13px">Color de fondo</p><input type="color" value="#f1e5d4" onchange="document.getElementById('artboard').style.background=this.value"><p style="font-size:13px">Exportación</p><button class="btn secondary" onclick="saveDesign()">Guardar diseño</button>
+  </aside>
+ </div>
+ <div id="saved" class="notice" style="display:none">✓ Tu diseño se guardó en este prototipo.</div>
+</section>
+<div class="footer"><span>PINVATE · PROTOTIPO INTERACTIVO</span><span>Inspiración → creación</span></div>
+</main></div>
+<script>
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.go===id));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+function showFiles(input){let box=document.getElementById('fileNames');box.style.display='block';box.textContent=input.files.length+' archivo(s) seleccionado(s). En esta demostración se simula el análisis.'}
+function selectProposal(el){document.querySelectorAll('.proposal').forEach(p=>p.classList.remove('selected'));el.classList.add('selected');let title=el.querySelector('strong').textContent;document.getElementById('brandTitle').textContent=title}
+function changeTitle(){let t=prompt('Escribe el nombre de tu marca:');if(t)document.getElementById('brandTitle').textContent=t}
+function changeColor(){let c=prompt('Escribe un color HEX (ej. #ead8d4):');if(c&&/^#[0-9a-f]{6}$/i.test(c))document.getElementById('artboard').style.background=c}
+function changeFont(){let el=document.getElementById('brandTitle');el.style.fontFamily=el.style.fontFamily.includes('Georgia')?'Arial, sans-serif':'Georgia, serif'}
+function toggleOrn(){let el=document.getElementById('orn');el.style.display=el.style.display==='none'?'block':'none'}
+function saveDesign(){document.getElementById('saved').style.display='block'}
+</script>
+</body></html>
